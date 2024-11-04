@@ -21,7 +21,25 @@ const gameboard = (() => {
       return false;
     }
   };
-  return { board, fillSpace, findWinner };
+  const playGame = (player1, player2) => {
+    display.draw(board);
+    let isWinner = false;
+    while (!isWinner) {
+      player1.turn();
+      isWinner = findWinner(player1.symbol);
+      display.draw(board);
+      if (isWinner) {
+        return alert(`${player1.name} is a winner!`);
+      }
+      player2.turn();
+      isWinner = findWinner(player2.symbol);
+      display.draw(board);
+      if (isWinner) {
+        return alert(`${player2.name} is a winner!`);
+      }
+    }
+  };
+  return { board, fillSpace, playGame };
 })();
 
 const display = (() => {
@@ -47,8 +65,10 @@ const createPlayer = (name, symbol) => {
 
 const player1 = createPlayer("mac", "x");
 const player2 = createPlayer("ben", "o");
+gameboard.playGame(player1, player2);
 
-let isWinner = false;
+/*let isWinner = false;
+
 display.draw(gameboard.board);
 while (!isWinner) {
   player1.turn();
@@ -65,3 +85,4 @@ while (!isWinner) {
     alert(`${player2.name} is a winner!`);
   }
 }
+*/
