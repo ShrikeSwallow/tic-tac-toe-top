@@ -18,6 +18,22 @@ const display = (() => {
   return { draw };
 })();
 
+const createPlayer = (name, symbol) => {
+  const turn = () => {
+    const position = prompt(`${name}, it's your turn!`);
+    let choice = Number.parseInt(position);
+    gameboard.fillSpace(choice, symbol);
+  };
+  return { name, symbol, turn };
+};
+
+const player1 = createPlayer("mac", "x");
+const player2 = createPlayer("ben", "o");
+
 display.draw(gameboard.board);
-gameboard.fillSpace(1, "X");
-display.draw(gameboard.board);
+for (let i = 0; i < 5; i++) {
+  player1.turn();
+  display.draw(gameboard.board);
+  player2.turn();
+  display.draw(gameboard.board);
+}
