@@ -41,6 +41,8 @@ const gameboard = (() => {
           if (findWinner(activePlayer.symbol)) {
             console.log(activePlayer);
             setTimeout(() => {
+              activePlayer.score += 1;
+              display.displayScore();
               alert(`${activePlayer.name} is a winner!`);
             }, 100);
           } else {
@@ -55,6 +57,11 @@ const gameboard = (() => {
 
 const display = (() => {
   const gameContainer = document.querySelector(".game-container");
+  const gameScore = document.querySelector(".game-score p");
+
+  const displayScore = () => {
+    gameScore.textContent = `Current score is: ${player1.name} ${player1.score} - ${player2.score} ${player2.name}`;
+  };
 
   const init = () => {
     gameContainer.innerHTML = "";
@@ -64,6 +71,7 @@ const display = (() => {
       cell.dataset.index = i;
       gameContainer.appendChild(cell);
     }
+    displayScore();
     gameContainer.focus();
   };
   const draw = (activePlayer, cell) => {
@@ -74,12 +82,13 @@ const display = (() => {
     cellText.textContent = `${gameboard.symbols[activePlayer.symbol] ?? ""}`;
     cell.appendChild(cellText);
   };
-  return { draw, init };
+  return { draw, init, displayScore };
 })();
 
 const controlPanel = (() => {
   const newGameBtn = document.querySelector(".new-game-btn");
   const renameBtn = document.querySelector(".rename-players-btn");
+  const resetBtn = document.querySelector(".reset-btn");
 
   const newGame = () => {
     if (player1.name === "" || player2.name === "") {
@@ -99,11 +108,24 @@ const controlPanel = (() => {
     console.log(gameboard.board);
     display.init();
   };
-  return { newGameBtn, renameBtn, newGame, renamePlayers };
+
+  const resetScore = () => {
+    player1.score = 0;
+    player2.score = 0;
+  };
+  return {
+    newGameBtn,
+    renameBtn,
+    resetBtn,
+    newGame,
+    renamePlayers,
+    resetScore,
+  };
 })();
 
 const createPlayer = (name, symbol) => {
-  return { name, symbol };
+  let score = 0;
+  return { name, symbol, score };
 };
 const player1 = createPlayer("", "x");
 const player2 = createPlayer("", "o");
@@ -114,4 +136,9 @@ controlPanel.newGameBtn.addEventListener("click", () => {
 
 controlPanel.renameBtn.addEventListener("click", () => {
   controlPanel.renamePlayers();
+});
+
+controlPanel.resetBtn.addEventListener("click", () => {
+  controlPanel.resetScore();
+  display.displayScore();
 });
