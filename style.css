@@ -17,6 +17,41 @@ header {
   align-self: center;
 }
 
+.control-panel ul {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.control-panel button {
+  width: 6rem;
+  height: 4rem;
+  border: none;
+  border-radius: 1rem;
+}
+
+.new-game-btn {
+  font-weight: 700;
+  color: darkblue;
+  background-color: lime;
+  box-shadow: 0 5px 5px 0 limegreen;
+}
+.reset-btn {
+  font-weight: 700;
+  color: white;
+  background-color: darkred;
+  box-shadow: 0 5px 5px 0 rgb(109, 0, 0);
+}
+
+.rename-players-btn {
+  font-weight: 700;
+  color: white;
+  background-color: rgb(71, 83, 255);
+  box-shadow: 0 5px 5px 0 rgb(49, 59, 199);
+}
+
 .game-container {
   border: 1px solid black;
   display: grid;

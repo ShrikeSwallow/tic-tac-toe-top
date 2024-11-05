@@ -31,7 +31,6 @@ const gameboard = (() => {
     }
   };
   const playGame = (player1, player2) => {
-    let isWinner = false;
     activePlayer = player1;
     let cells = document.querySelectorAll(".cell");
     cells.forEach((cell) => {
@@ -54,6 +53,9 @@ const gameboard = (() => {
 
 const display = (() => {
   const gameContainer = document.querySelector(".game-container");
+  const header = document.querySelector("header");
+  const currentPlayer = document.createElement("h2");
+
   const init = () => {
     for (let i = 0; i < 9; i++) {
       const cell = document.createElement("div");
@@ -77,9 +79,8 @@ const display = (() => {
 const createPlayer = (name, symbol) => {
   return { name, symbol };
 };
-
+const player1 = createPlayer("Benia", "x");
+const player2 = createPlayer("Lidia", "o");
 display.init();
 
-const player1 = createPlayer("mac", "x");
-const player2 = createPlayer("ben", "o");
 gameboard.playGame(player1, player2);
