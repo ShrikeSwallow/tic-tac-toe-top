@@ -2,6 +2,7 @@ const gameboard = (() => {
   const board = ["", "", "", "", "", "", "", "", ""];
   const symbols = { x: "close", o: "circle" };
   let activePlayer = { name: "", symbol: "" };
+
   const fillSpace = (position, symbol) => {
     board[position] = symbol;
   };
@@ -38,8 +39,9 @@ const gameboard = (() => {
         if (!cell.hasChildNodes()) {
           display.draw(activePlayer, event.currentTarget);
           if (findWinner(activePlayer.symbol)) {
+            console.log(activePlayer);
             setTimeout(() => {
-              return alert(`${activePlayer.name} is a winner!`);
+              alert(`${activePlayer.name} is a winner!`);
             }, 100);
           } else {
             swapPlayers();
@@ -53,10 +55,9 @@ const gameboard = (() => {
 
 const display = (() => {
   const gameContainer = document.querySelector(".game-container");
-  const header = document.querySelector("header");
-  const currentPlayer = document.createElement("h2");
 
   const init = () => {
+    gameContainer.innerHTML = "";
     for (let i = 0; i < 9; i++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
@@ -76,11 +77,41 @@ const display = (() => {
   return { draw, init };
 })();
 
+const controlPanel = (() => {
+  const newGameBtn = document.querySelector(".new-game-btn");
+  const renameBtn = document.querySelector(".rename-players-btn");
+
+  const newGame = () => {
+    if (player1.name === "" || player2.name === "") {
+      renamePlayers();
+    }
+    reset();
+    gameboard.playGame(player1, player2);
+  };
+  const renamePlayers = () => {
+    player1.name = prompt(`Enter new name for Player 1 (x)`);
+    player2.name = prompt(`Enter new name for Player 2 (o)`);
+  };
+  const reset = () => {
+    for (let i = 0; i < 9; i++) {
+      gameboard.board[i] = "";
+    }
+    console.log(gameboard.board);
+    display.init();
+  };
+  return { newGameBtn, renameBtn, newGame, renamePlayers };
+})();
+
 const createPlayer = (name, symbol) => {
   return { name, symbol };
 };
-const player1 = createPlayer("Benia", "x");
-const player2 = createPlayer("Lidia", "o");
-display.init();
+const player1 = createPlayer("", "x");
+const player2 = createPlayer("", "o");
 
-gameboard.playGame(player1, player2);
+controlPanel.newGameBtn.addEventListener("click", () => {
+  controlPanel.newGame();
+});
+
+controlPanel.renameBtn.addEventListener("click", () => {
+  controlPanel.renamePlayers();
+});
