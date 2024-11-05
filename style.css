@@ -1,5 +1,10 @@
 @import "node_modules/modern-normalize/modern-normalize.css";
 
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 40;
+  font-size: 8rem;
+}
+
 .container {
   width: max(60vh, 40vw);
   height: max(60vh, 40vw);
@@ -17,9 +22,16 @@ header {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  justify-content: center;
+  align-content: center;
 }
 
 .cell {
   border: 1px solid gray;
   aspect-ratio: 1;
+  display: grid;
+}
+
+.cell p {
+  margin: auto;
 }

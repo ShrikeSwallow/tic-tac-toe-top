@@ -1,5 +1,5 @@
 const gameboard = (() => {
-  const board = ["", "", "", "", "", "", "", "", ""];
+  const board = ["", "", "", "o", "", "x", "", "x", ""];
   const fillSpace = (position, symbol) => {
     board[position] = symbol;
   };
@@ -44,13 +44,15 @@ const gameboard = (() => {
 
 const display = (() => {
   const gameContainer = document.querySelector(".game-container");
+  const displaySymbol = { x: "close", o: "circle" };
   const init = () => {
     for (let i = 0; i < 9; i++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.dataset.index = i;
       const cellText = document.createElement("p");
-      cellText.textContent = "";
+      cellText.classList.add("material-symbols-outlined");
+      cellText.textContent = `${displaySymbol[gameboard.board[i]] ?? ""}`;
       cell.appendChild(cellText);
       gameContainer.appendChild(cell);
     }
