@@ -1,6 +1,7 @@
 const gameboard = (() => {
   const board = ["", "", "", "", "", "", "", "", ""];
   const symbols = { x: "close", o: "circle" };
+  let activePlayer = { name: "", symbol: "" };
   const fillSpace = (position, symbol) => {
     board[position] = symbol;
   };
@@ -22,15 +23,27 @@ const gameboard = (() => {
       return false;
     }
   };
+  const swapPlayers = () => {
+    if (activePlayer.symbol === "x") {
+      activePlayer = player2;
+    } else {
+      activePlayer = player1;
+    }
+  };
   const playGame = (player1, player2) => {
     let isWinner = false;
-    let activePlayer = { name: "", symbol: "" };
     activePlayer = player1;
     let cells = document.querySelectorAll(".cell");
     cells.forEach((cell) => {
       cell.addEventListener("click", (event) => {
         if (!cell.hasChildNodes()) {
           display.draw(activePlayer, event.currentTarget);
+          if (findWinner(activePlayer.symbol)) {
+            setTimeout(() => {
+              return alert(`${activePlayer.name} is a winner!`);
+            }, 100);
+          }
+          swapPlayers();
 
           /*const cellText = document.createElement("p");
           cellText.classList.add("material-symbols-outlined");
