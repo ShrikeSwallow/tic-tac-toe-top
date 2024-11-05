@@ -43,6 +43,18 @@ const gameboard = (() => {
 })();
 
 const display = (() => {
+  const gameContainer = document.querySelector(".game-container");
+  const init = () => {
+    for (let i = 0; i < 9; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.dataset.index = i;
+      const cellText = document.createElement("p");
+      cellText.textContent = "";
+      cell.appendChild(cellText);
+      gameContainer.appendChild(cell);
+    }
+  };
   const draw = (board) => {
     console.log(`
          ${board[0]} | ${board[1]} | ${board[2]}
@@ -51,7 +63,7 @@ const display = (() => {
         -----------
          ${board[6]} | ${board[7]} | ${board[8]}`);
   };
-  return { draw };
+  return { draw, init };
 })();
 
 const createPlayer = (name, symbol) => {
@@ -63,9 +75,11 @@ const createPlayer = (name, symbol) => {
   return { name, symbol, turn };
 };
 
+display.init();
+
 const player1 = createPlayer("mac", "x");
 const player2 = createPlayer("ben", "o");
-gameboard.playGame(player1, player2);
+//gameboard.playGame(player1, player2);
 
 /*let isWinner = false;
 
