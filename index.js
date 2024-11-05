@@ -1,5 +1,6 @@
 const gameboard = (() => {
-  const board = ["", "", "", "o", "", "x", "", "x", ""];
+  const board = ["", "", "", "", "", "", "", "", ""];
+  const symbols = { x: "close", o: "circle" };
   const fillSpace = (position, symbol) => {
     board[position] = symbol;
   };
@@ -22,7 +23,29 @@ const gameboard = (() => {
     }
   };
   const playGame = (player1, player2) => {
-    display.draw(board);
+    let isWinner = false;
+    let activePlayer = { name: "", symbol: "" };
+    activePlayer = player1;
+    let cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.addEventListener("click", (event) => {
+        if (!cell.hasChildNodes()) {
+          display.draw(activePlayer, event.currentTarget);
+
+          /*const cellText = document.createElement("p");
+          cellText.classList.add("material-symbols-outlined");
+          gameboard.board[Number.parseInt(cell.dataset.index)] =
+            activePlayer.symbol;
+          console.log(cell.dataset.index);
+          cellText.textContent = `${symbols[activePlayer.symbol] ?? ""}`;
+          cell.appendChild(cellText);*/
+
+          // IMPLEMENT PLAYERS TAKING TURNS
+        }
+      });
+    });
+
+    /*display.draw(board);
     let isWinner = false;
     while (!isWinner) {
       player1.turn();
@@ -37,50 +60,47 @@ const gameboard = (() => {
       if (isWinner) {
         return alert(`${player2.name} is a winner!`);
       }
-    }
+    }*/
   };
-  return { board, fillSpace, playGame };
+  return { board, symbols, fillSpace, playGame };
 })();
 
 const display = (() => {
   const gameContainer = document.querySelector(".game-container");
-  const displaySymbol = { x: "close", o: "circle" };
+  //const displaySymbol = { x: "close", o: "circle" };
   const init = () => {
     for (let i = 0; i < 9; i++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.dataset.index = i;
-      const cellText = document.createElement("p");
+      /*const cellText = document.createElement("p");
       cellText.classList.add("material-symbols-outlined");
       cellText.textContent = `${displaySymbol[gameboard.board[i]] ?? ""}`;
-      cell.appendChild(cellText);
+      cell.appendChild(cellText);*/
       gameContainer.appendChild(cell);
     }
+    gameContainer.focus();
   };
-  const draw = (board) => {
-    console.log(`
-         ${board[0]} | ${board[1]} | ${board[2]}
-        -----------
-         ${board[3]} | ${board[4]} | ${board[5]}
-        -----------
-         ${board[6]} | ${board[7]} | ${board[8]}`);
+  const draw = (activePlayer, cell) => {
+    const cellText = document.createElement("p");
+    cellText.classList.add("material-symbols-outlined");
+    gameboard.board[Number.parseInt(cell.dataset.index)] = activePlayer.symbol;
+    console.log(cell.dataset.index);
+    cellText.textContent = `${gameboard.symbols[activePlayer.symbol] ?? ""}`;
+    cell.appendChild(cellText);
   };
   return { draw, init };
 })();
 
 const createPlayer = (name, symbol) => {
-  const turn = () => {
-    const position = prompt(`${name}, it's your turn!`);
-    let choice = Number.parseInt(position);
-    gameboard.fillSpace(choice, symbol);
-  };
-  return { name, symbol, turn };
+  return { name, symbol };
 };
 
 display.init();
 
 const player1 = createPlayer("mac", "x");
 const player2 = createPlayer("ben", "o");
+gameboard.playGame(player1, player2);
 //gameboard.playGame(player1, player2);
 
 /*let isWinner = false;
