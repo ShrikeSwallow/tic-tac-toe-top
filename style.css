@@ -5,6 +5,10 @@
   font-size: 3em;
 }
 
+img {
+  size: 70px;
+}
+
 .container {
   width: max(50vh, 35vw);
   height: max(50vh, 35vw);
@@ -72,6 +76,7 @@ header h1 {
   display: grid;
 }
 
-.cell p {
+.cell p,
+.cell img {
   margin: auto;
 }

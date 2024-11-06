@@ -1,6 +1,6 @@
 const gameboard = (() => {
   const board = ["", "", "", "", "", "", "", "", ""];
-  const symbols = { x: "close", o: "circle" };
+  const symbols = { x: "./icons/close.svg", o: "./icons/circle.svg" };
   let activePlayer = { name: "", symbol: "" };
 
   const fillSpace = (position, symbol) => {
@@ -75,11 +75,15 @@ const display = (() => {
     gameContainer.focus();
   };
   const draw = (activePlayer, cell) => {
-    const cellText = document.createElement("p");
-    cellText.classList.add("material-symbols-outlined");
+    const cellText = document.createElement("img");
+    //cellText.classList.add("material-symbols-outlined");
+
     gameboard.board[Number.parseInt(cell.dataset.index)] = activePlayer.symbol;
     console.log(cell.dataset.index);
-    cellText.textContent = `${gameboard.symbols[activePlayer.symbol] ?? ""}`;
+    cellText.setAttribute(
+      "src",
+      `${gameboard.symbols[activePlayer.symbol] ?? ""}`
+    );
     cell.appendChild(cellText);
   };
   return { draw, init, displayScore };
